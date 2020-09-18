@@ -28,7 +28,7 @@ function exportVariable(name, val) {
 }
 
 try {
-  execute(`git fetch origin master:master && git diff --name-only master`, stdout => {
+  execute(`git fetch origin ${targetBranch}:${targetBranch} && git diff --name-only ${targetBranch}`, stdout => {
     const files = getList(stdout);
     const fileExtensions = files.map(getFileExtension);
     exportVariable('CHANGED_FILES', files);
