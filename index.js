@@ -16,6 +16,7 @@ function exportVariable(name, val) {
   const convertedVal = toCommandValue(val)
   process.env[name] = convertedVal
   issueCommand('set-env', {name}, convertedVal)
+  core.setOutput(name, val);
 }
 
 execute('git difftool origin/master... --name-only', stdout => {
