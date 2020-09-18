@@ -35,7 +35,7 @@ try {
     exportVariable('CHANGED_FILES_EXTENSIONS', fileExtensions);
   });
 
-  execute(`git fetch origin && git diff HEAD^ HEAD --name-only`, stdout => {
+  execute(`git fetch origin && git diff HEAD HEAD~1 --name-only`, stdout => {
     const files = getList(stdout);
     const fileExtensions = files.map(getFileExtension);
     exportVariable('CHANGED_FILES_FROM_PREVIOUS_COMMIT', files);
