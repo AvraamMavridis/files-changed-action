@@ -8,7 +8,7 @@ Install action and specify id
 
 ```
   - name: Get list of changed files
-    uses: AvraamMavridis/files-changed-action@v2
+    uses: AvraamMavridis/files-changed-action@v3
     id: changed_files
 ```
 
@@ -16,7 +16,7 @@ Optionally specify target branch
 
 ```
   - name: Get list of changed files
-    uses: AvraamMavridis/files-changed-action@v2
+    uses: AvraamMavridis/files-changed-action@v3
     id: changed_files
     with:
       target_branch: staging
@@ -34,7 +34,7 @@ execute your steps based on the files that changed
 
 ```
     - name: Get list of changed files
-      uses: AvraamMavridis/files-changed-action@v2
+      uses: AvraamMavridis/files-changed-action@v3
       id: changed_files
       with:
         target_branch: staging
