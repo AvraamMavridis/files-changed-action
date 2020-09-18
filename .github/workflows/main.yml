@@ -11,7 +11,7 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: changed_files
         with:
-          target_branch: staging
+          target_branch: master
       - name: Get files changed
         run: echo "${{ steps.changed_files.outputs.CHANGED_FILES }}"
       - name: Get extensions of changed files

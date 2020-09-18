@@ -1,13 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
-const targetBranch = core.getInput('target_branch');
-
-console.log('>>>>>>>>',targetBranch);
-console.log('"""""""', process.env["GITHUB_HEAD_REF"])
-console.log('"""""""', process.env["GITHUB_BASE_REF"])
-console.log('"""""""', process.env["GITHUB_SHA"])
-
+const targetBranch = core.getInput('target_branch') || 'master';
 
 const exec = require('child_process').exec;
 const {issueCommand, toCommandValue} = require('./commands');
@@ -34,7 +28,7 @@ function exportVariable(name, val) {
 }
 
 try {
-  execute('git fetch origin master:master && git diff --name-only master', stdout => {
+  execute(`git fetch origin master:master && git diff --name-only master`, stdout => {
     const files = getList(stdout);
     const fileExtensions = files.map(getFileExtension);
     exportVariable('CHANGED_FILES', files);
