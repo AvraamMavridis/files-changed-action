@@ -34,6 +34,13 @@ try {
     exportVariable('CHANGED_FILES', files);
     exportVariable('CHANGED_FILES_EXTENSIONS', fileExtensions);
   });
+
+  execute(`git fetch origin && git diff HEAD^ HEAD`, stdout => {
+    const files = getList(stdout);
+    const fileExtensions = files.map(getFileExtension);
+    exportVariable('CHANGED_FILES_FROM_PREVIOUS_COMMIT', files);
+    exportVariable('CHANGED_FILES_EXTENSIONS_FROM_PREVIOUS_COMMIT', fileExtensions);
+  });
 } catch (error) {
   core.setFailed(error.message);
 }
