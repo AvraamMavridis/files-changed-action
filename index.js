@@ -1,14 +1,27 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const exec = require('child_process').exec;
 
-function execute(command, callback){
+const exec = require('child_process').exec;
+const  { issueCommand, toCommandValue } = require('./commands');
+
+function execute(command, callback = () => null){
    exec(command, function(error, stdout, stderr){ callback(stdout); });
 };
 
-// git difftool origin/master... --name-only
+function getList(stdout){
+   return stdout.split("\n").filter(Boolean);
+}
 
-execute('git difftool origin/master... --name-only', console.log)
+function exportVariable(name, val) {
+  const convertedVal = toCommandValue(val)
+  process.env[name] = convertedVal
+  issueCommand('set-env', {name}, convertedVal)
+}
+
+execute('git difftool origin/master... --name-only', stdout => {
+   const files = getList(stdout);
+   exportVariable('CHANGED_FILES', files);
+});
 
 // try {
 //   // `who-to-greet` input defined in action metadata file
