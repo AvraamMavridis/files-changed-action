@@ -1,6 +1,10 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
+const targetBranch = core.getInput('target_branch');
+
+console.log('>>>>>>>>',targetBranch);
+
 const exec = require('child_process').exec;
 const {issueCommand, toCommandValue} = require('./commands');
 
