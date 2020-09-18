@@ -16,3 +16,9 @@ jobs:
         run: echo "${{ steps.changed_files.outputs.CHANGED_FILES }}"
       - name: Get extensions of changed files
         run: echo "${{ steps.changed_files.outputs.CHANGED_FILES_EXTENSIONS }}"
+      - name: Echo if changed js
+        if: "contains(steps.changed_files.outputs.CHANGED_FILES_EXTENSIONS, 'js')"
+        run: echo JS files changed
+      - name: Echo if changed yml
+        if: "contains(steps.changed_files.outputs.CHANGED_FILES_EXTENSIONS, 'yml')"
+        run: echo YML files changed
