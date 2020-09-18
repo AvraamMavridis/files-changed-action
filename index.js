@@ -2,14 +2,20 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 
 const exec = require('child_process').exec;
-const  { issueCommand, toCommandValue } = require('./commands');
+const {issueCommand, toCommandValue} = require('./commands');
 
-function execute(command, callback = () => null){
-   exec(command, function(error, stdout, stderr){ callback(stdout); });
+function execute(command, callback = () => null) {
+  exec(command, function (error, stdout, stderr) {
+    callback(stdout);
+  });
 };
 
-function getList(stdout){
-   return stdout.split("\n").filter(Boolean);
+function getFileExtension(fileName) {
+  return fileName.substr(fileName.lastIndexOf('.') + 1);
+}
+
+function getList(stdout) {
+  return stdout.split("\n").filter(Boolean);
 }
 
 function exportVariable(name, val) {
@@ -19,22 +25,13 @@ function exportVariable(name, val) {
   core.setOutput(name, val);
 }
 
-// git difftool origin/master... --name-only
-
-execute('git fetch origin master:master && git diff --name-only master', stdout => {
-   const files = getList(stdout);
-   exportVariable('CHANGED_FILES', files);
-});
-
-// try {
-//   // `who-to-greet` input defined in action metadata file
-//   const nameToGreet = core.getInput('who-to-greet');
-//   console.log(`Hello ${nameToGreet}!`);
-//   const time = (new Date()).toTimeString();
-//   core.setOutput("time", time);
-//   // Get the JSON webhook payload for the event that triggered the workflow
-//   const payload = JSON.stringify(github.context.payload, undefined, 2)
-//   console.log(`The event payload: ${payload}`);
-// } catch (error) {
-//   core.setFailed(error.message);
-// }
+try {
+  execute('git fetch origin master:master && git diff --name-only master', stdout => {
+    const files = getList(stdout);
+    const fileExtensions = files.map(getFileExtension);
+    exportVariable('CHANGED_FILES', files);
+    exportVariable('CHANGED_FILES_EXTENSIONS', fileExtensions);
+  });
+} catch (error) {
+  core.setFailed(error.message);
+}
