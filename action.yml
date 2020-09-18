@@ -5,4 +5,4 @@ outputs:
     description: 'List of files that changed'
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'
