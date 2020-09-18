@@ -8,7 +8,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Get list of changed files
-        uses: ./ # Uses an action in the root directory
+        uses: AvraamMavridis/files-changed-action@v2
         id: changed_files
         with:
           target_branch: master
