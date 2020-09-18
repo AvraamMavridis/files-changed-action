@@ -19,7 +19,9 @@ function exportVariable(name, val) {
   core.setOutput(name, val);
 }
 
-execute('git difftool origin/master... --name-only', stdout => {
+// git difftool origin/master... --name-only
+
+execute('ls', stdout => {
    const files = getList(stdout);
    exportVariable('CHANGED_FILES', files);
 });
