@@ -6,6 +6,8 @@ const targetBranch = core.getInput('target_branch');
 console.log('>>>>>>>>',targetBranch);
 console.log('"""""""', process.env["GITHUB_HEAD_REF"])
 console.log('"""""""', process.env["GITHUB_BASE_REF"])
+console.log('"""""""', process.env["GITHUB_SHA"])
+
 
 const exec = require('child_process').exec;
 const {issueCommand, toCommandValue} = require('./commands');
